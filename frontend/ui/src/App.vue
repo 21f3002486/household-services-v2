@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- {{ storedata }} -->
-    <nav>
+    <nav class="d-flex justify-content-center">
       <div v-if="!this.$store.state.is_logged_in">
         <button class="btn"><router-link to="/login">Login</router-link></button> | 
         <button class="btn"><router-link to="/register">Register</router-link></button>

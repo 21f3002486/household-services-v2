@@ -1,8 +1,8 @@
 <template>
     <div>
         <div>
-            <label for="serviceName">Sevice Name: </label>
-            <input type="text" v-model="name">
+            <label for="serviceName" class="form-label">Sevice Name: </label>
+            <input type="text" v-model="name" class="form-control">
             <br>
             <label for="description">Description: </label>
             <textarea v-model="description"/>

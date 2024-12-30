@@ -1,25 +1,32 @@
 <template>
-    <div>
-        <div>
+    <div class="container d-flex justify-content-center">
+        <div class="w-50">
             <br>
-            <label for="emailId" name="emailId">Registered Email ID: </label>
-            <input type="text" name="emailId" v-model="emailId">
+            <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
+            <input class="form-control" type="text" name="emailId" v-model="emailId">
             <br>
-            <label for="password" name="password">Password: </label>
-            <input type="password" name="password" v-model="password">
+            <label class="form-label" for="password" name="password">Password: </label>
+            <input class="form-control" type="password" name="password" v-model="password">
             <br>
-            <input type="radio" id="admin" value="admin" v-model="role" checked="checked"/>
-            <label for="admin">Admin</label>
-            <input type="radio" id="customer" value="customer" v-model="role" />
-            <label for="admin">Customer</label>
-            <input type="radio" id="professional" value="professional" v-model="role" />
-            <label for="professional">Professional</label>
+            <div class="d-flex justify-content-evenly">
+                <div>
+                    <input class="form-check-input m-1 p-1" type="radio" id="admin" value="admin" v-model="role" checked="checked"/>
+                    <label class="form-check-label" for="admin">Admin</label>
+                </div>
+                <div>
+                    <input class="form-check-input m-1 p-1" type="radio" id="customer" value="customer" v-model="role" />
+                    <label class="form-check-label" for="admin">Customer</label>
+                </div>
+                <div>
+                    <input class="form-check-input m-1 p-1" type="radio" id="professional" value="professional" v-model="role" />
+                    <label class="form-check-label" for="professional">Professional</label>
+                </div>    
+            </div>
             <br>
-            <button @click="submitLogin">Login</button>
+            <button class="btn btn-success w-100 mt-3" @click="submitLogin">Login</button>
             <h1 style="color: red">{{ error }}</h1>
             <br>
-            <br>
-            <button><router-link to="/register">Create Account?</router-link></button>
+            <button class="btn w-100"><router-link to="/register">Create Account?</router-link></button>
         </div>
     </div>
 </template>
@@ -74,6 +81,6 @@
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>
