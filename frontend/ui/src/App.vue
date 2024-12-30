@@ -3,8 +3,8 @@
     <!-- {{ storedata }} -->
     <nav>
       <div v-if="!this.$store.state.is_logged_in">
-        <button><router-link to="/login">Login</router-link></button> | 
-        <button><router-link to="/register">Register</router-link></button>
+        <button class="btn"><router-link to="/login">Login</router-link></button> | 
+        <button class="btn"><router-link to="/register">Register</router-link></button>
       </div>
       <div v-else>
         <button><router-link to="/logout">Logout</router-link></button>
@@ -26,6 +26,8 @@
 </script>
 
 <style>
+
+/*
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,6 +48,9 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+*/
 
 a { text-decoration: none; }
+router-link { text-decoration: none;}
+@import'~bootstrap/dist/css/bootstrap.css'
 </style>
