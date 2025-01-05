@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- {{ storedata }} -->
-    <nav class="d-flex justify-content-center">
+    <nav class="d-flex justify-content-center bg-light mb-3">
       <div v-if="!this.$store.state.is_logged_in">
         <button class="btn"><router-link to="/login">Login</router-link></button> | 
         <button class="btn"><router-link to="/register">Register</router-link></button>
       </div>
       <div v-else>
-        <button><router-link to="/logout">Logout</router-link></button>
+        <button class="btn"><router-link to="/logout">Logout</router-link></button>
       </div>
     </nav>
     <router-view />

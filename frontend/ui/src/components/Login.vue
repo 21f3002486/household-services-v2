@@ -24,7 +24,7 @@
             </div>
             <br>
             <button class="btn btn-success w-100 mt-3" @click="submitLogin">Login</button>
-            <h1 style="color: red">{{ error }}</h1>
+            <h3 style="color: red">{{ error }}</h3>
             <br>
             <button class="btn w-100"><router-link to="/register">Create Account?</router-link></button>
         </div>
@@ -59,11 +59,14 @@
                 };
                 fetch("http://127.0.0.1:5000/login", data)
                 .then(resp => resp.json())
-                .then(data => {
-                    if(data.message == "Login Successful"){
+                .then(d => {
+                    // console.log("data: ", d);
+                    if(d.message == "Login Successful"){
                         this.error = ''
-                        this.$store.commit('loginUser', this.role, data.token)
-                        localStorage.token = data.token;
+                        // console.log(d.token);
+                        // console.log(d);
+                        this.$store.commit('loginUser', {"role": this.role, "token": d.token, "is_blocked": d.is_blocked});
+                        localStorage.token = d.token;
                         if(this.role == "admin"){
                             this.$router.push('/admin')
                         }else if(this.role == "customer"){
@@ -72,7 +75,7 @@
                             this.$router.push('/professional')
                         }
                     }else{
-                        this.error = data.message;
+                        this.error = d.message;
                     }
                 })
                 console.log("Frontend: "+this.emailId, this.password, this.role)

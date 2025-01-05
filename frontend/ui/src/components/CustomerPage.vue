@@ -1,11 +1,14 @@
 <template>
     <div>
-    <div v-if="this.$store.state.is_logged_in && this.$store.state.role=='customer'">
+    <div v-if="this.$store.state.is_logged_in && this.$store.state.role=='customer' && !this.$store.state.is_blocked">
         Customer Page
         <button><router-link to='/customer/searchservices'>Search Services</router-link></button>
         My requests:
         <!-- Put previous requests here -->
         <router-link />
+    </div>
+    <div v-else-if="this.$store.state.is_blocked">
+        You have been blocked by the admin.
     </div>
     <div v-else>
         <div v-if="this.$store.state.role=='admin'">

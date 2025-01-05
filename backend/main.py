@@ -177,7 +177,14 @@ class Login(Resource):
             if user.password == password:
                 if user.role == role:
                     access_token = create_access_token(identity={"emailId": emailId, "role": role})
-                    return jsonify({"message": "Login Successful", "token":access_token})
+                    if user.role=='customer':
+                        customer = CUSTOMER.query.filter_by(user_id=user.id).first()
+                        return jsonify({"message": "Login Successful", "token":access_token, "is_blocked":customer.is_blocked})
+                    elif user.role=='professional':
+                        professional = PROFESSIONAL.query.filter_by(user_id=user.id).first()
+                        return jsonify({"message": "Login Successful", "token":access_token, "is_blocked":professional.is_blocked})
+                    elif user.role == "admin":
+                        return jsonify({"message": "Login Successful", "token": access_token, "is_blocked":False})
                 else:
                     return jsonify({"message": "Wrong Role, try with another role or register with appropriate role"})
             else:
