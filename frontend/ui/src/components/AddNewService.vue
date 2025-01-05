@@ -1,20 +1,20 @@
 <template>
-    <div>
-        <div>
-            <label for="serviceName" class="form-label">Sevice Name: </label>
+    <div class="container d-flex justify-content-center">
+        <div class="w-50">
+            <label for="serviceName" class="form-label">Service Name: </label>
             <input type="text" v-model="name" class="form-control">
             <br>
-            <label for="description">Description: </label>
-            <textarea v-model="description"/>
+            <label for="description" class="form-label">Description: </label>
+            <textarea v-model="description" class="form-control" />
             <br>
-            <label for="basePrice">Base Price: </label>
-            <input type="number" v-model="price">
+            <label for="basePrice" class="form-label">Base Price: </label>
+            <input type="number" v-model="price" class="form-control">
             <br>
-            <label for="timeRequired">Time Required (in hours): </label>
-            <input type="number" v-model="time_required">
+            <label for="timeRequired" class="form-label">Time Required (in hours): </label>
+            <input type="number" v-model="time_required" class="form-control">
             <br>
-            <button @click="addservice">Add</button>
-            <button><router-link to="/admin/services">Cancel</router-link></button>
+            <button @click="addservice" class="btn">Add</button>
+            <button class="btn"><router-link to="/admin/services">Cancel</router-link></button>
         </div>
     </div>
 </template>

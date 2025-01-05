@@ -1,30 +1,30 @@
 <template>
     <div>
-        <div v-if="!show_update">
+        <div v-if="!show_update" class="card m-1">
           <h4>Name: {{ service.name }}</h4> 
           <h5>Base Price: {{ service.price }}</h5>
           <h5 v-if="service.time_required <= 1">Time Required: {{ service.time_required }} hour</h5>
           <h5 v-else>Time Required: {{ service.time_required }} hours</h5>
           <p>Description: {{ service.description }}</p>
 
-          <button @click="updateService">Update</button>
-          <button @click="deleteService">Delete</button>
+          <button @click="updateService" class="btn">Update</button>
+          <button @click="deleteService" class="btn">Delete</button>
         </div>
-        <div v-else>
-          <label for="serviceName">Sevice Name: </label>
-            <input type="text" v-model="name">
+        <div v-else class="card m-1">
+          <label for="serviceName" class="form-label">Sevice Name: </label>
+            <input type="text" v-model="name" class="form-control">
             <br>
-            <label for="description">Description: </label>
-            <textarea v-model="description"/>
+            <label for="description" class="form-label">Description: </label>
+            <textarea v-model="description" class="form-control"/>
             <br>
-            <label for="basePrice">Base Price: </label>
-            <input type="number" v-model="price">
+            <label for="basePrice" class="form-label">Base Price: </label>
+            <input type="number" v-model="price" class="form-control">
             <br>
-            <label for="timeRequired">Time Required (in hours): </label>
-            <input type="number" v-model="time_required">
+            <label for="timeRequired" class="form-label">Time Required (in hours): </label>
+            <input type="number" v-model="time_required" class="form-control">
             <br>
-            <button @click="emitUpdate">Update</button>
-            <button @click="this.show_update = !this,show_update">Cancel</button>
+            <button @click="emitUpdate" class="btn">Update</button>
+            <button @click="this.show_update = !this.show_update" class="btn">Cancel</button>
         </div>
     </div>
 </template>

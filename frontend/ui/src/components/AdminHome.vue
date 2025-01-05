@@ -1,15 +1,15 @@
 <template>
-    <div>
-        <div class="navbar" v-if="this.$store.state.role == 'admin'">
+    <div class="container">
+        <div class="navbar justify-content-evenly" v-if="this.$store.state.role == 'admin'">
             <div>
                 <router-link to="/admin">Welcome to Admin's Dashboard</router-link>
             </div>
             <!-- <button @click="showToken">Show token</button>
             <h3 v-if="token != '' ">{{ token }}</h3> -->
-            <div>
-                <button><router-link to="/admin/allusers">Manage Users</router-link></button>
-                <button><router-link to="/admin/services">Manage Services</router-link></button>
-                <button><router-link to="/admin/requests">Manage Requests</router-link></button>
+            <div class="justify-content-evenly">
+                <button class="btn"><router-link to="/admin/allusers">Manage Users</router-link></button>
+                <button class="btn"><router-link to="/admin/services">Manage Services</router-link></button>
+                <button class="btn"><router-link to="/admin/requests">Manage Requests</router-link></button>
             </div>
         </div>
         <div v-else>

@@ -1,9 +1,10 @@
 <template>
-    <div>
+    <div class="container d-flex justify-content-center">
         <div v-if="!areyousure">
-        Services here
-        <button @click="getServices">Refresh page</button>
+        <button @click="getServices" class="btn">Refresh page</button>
+        <button class="btn"><router-link to="/admin/services/addnewservice">Add New Service</router-link></button>
         <!-- {{ services }} -->
+        <div class="d-flex">
         <ShowServices 
             v-for="service in services"
             :key="service.service_id"
@@ -11,10 +12,10 @@
             @delete-service="areyousurefn"
             :service="service"
         />
-        <button><router-link to="/admin/services/addnewservice">Add New Service</router-link></button>
+        </div>
         </div>
         <div v-else>
-            <button @click="deleteService">Are you sure you want to delete this service?</button>
+            <button @click="deleteService" class="btn">Are you sure you want to delete this service?</button>
         </div>
         <router-view />
     </div>
