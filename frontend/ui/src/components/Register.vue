@@ -1,43 +1,51 @@
 <template>
-    <div>
-        <label for="">Register as: </label>
-        <input type="radio" id="customer" value="customer" v-model="role" checked="checked"/>
-        <label for="admin">Customer</label>
-        <input type="radio" id="professional" value="professional" v-model="role" />
-        <label for="professional">Professional</label>
-        <br><br>
-        <div v-if="role == 'customer'">
-            <label for="emailId" name="emailId">Registered Email ID: </label>
-            <input type="text" name="emailId" v-model="emailId">
+    <div class="container d-flex justify-content-center">
+        <div class="w-50">
+            <div class="d-flex justify-content-evenly">
+                <label for="" class="form-label">Register as: </label>
+                <div>
+                    <input class="form-check-input m-1 p-1" type="radio" id="customer" value="customer" v-model="role" checked="checked"/>
+                    <label class="form-check-label" for="admin">Customer</label>
+                </div>
+                <div>
+                    <input class="form-check-input m-1 p-1" type="radio" id="professional" value="professional" v-model="role" />
+                    <label class="form-check-label" for="professional">Professional</label>
+                </div>
+            </div>
             <br>
-            <label for="password" name="password">Password: </label>
-            <input type="password" name="password" v-model="password">
-            <br>
-            <label for="address" name="address">Address: </label>
-            <input type="text" name="address" v-model="address">
-            <br>
-            <label for="number" name="number">Phone Number: </label>
-            <input type="number" name="number" v-model="phone_number">
-            <br>
-            <button @click="submitCustomer">Register as Customer</button>
+            <div v-if="role == 'customer'">
+                <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
+                <input class="form-control" type="text" name="emailId" v-model="emailId">
+                <br>
+                <label class="form-label" for="password" name="password">Password: </label>
+                <input class="form-control" type="password" name="password" v-model="password">
+                <br>
+                <label class="form-label" for="address" name="address">Address: </label>
+                <input class="form-control" type="text" name="address" v-model="address">
+                <br>
+                <label class="form-label" for="number" name="number">Phone Number: </label>
+                <input class="form-control" type="number" name="number" v-model="phone_number">
+                <br>
+                <button class="btn btn-success w-100" @click="submitCustomer">Register as Customer</button>
+            </div>
+            <div v-else>
+                <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
+                <input class="form-control" type="text" name="emailId" v-model="emailId">
+                <br>
+                <label class="form-label" for="password" name="password">Password: </label>
+                <input class="form-control" type="password" name="password" v-model="password">
+                <br>
+                <label class="form-label" for="service_type" name="service_type">Service Type: </label>
+                <input class="form-control" type="text" name="service_type" v-model="service_type">
+                <br>
+                <label class="form-label" for="experience" name="experience">Experience (in years): </label>
+                <input class="form-control" type="number" name="experience" v-model="experience">
+                <br>
+                <button class="btn btn-success w-100" @click="submitProfessional">Register as Professional</button>
+            </div>
+            <h3 style="color: red">{{ error }}</h3>
+            <h3 style="color: green">{{ professional_message }}</h3>
         </div>
-        <div v-else>
-            <label for="emailId" name="emailId">Registered Email ID: </label>
-            <input type="text" name="emailId" v-model="emailId">
-            <br>
-            <label for="password" name="password">Password: </label>
-            <input type="password" name="password" v-model="password">
-            <br>
-            <label for="service_type" name="service_type">Service Type: </label>
-            <input type="text" name="service_type" v-model="service_type">
-            <br>
-            <label for="experience" name="experience">Experience (in years): </label>
-            <input type="number" name="experience" v-model="experience">
-            <br>
-            <button @click="submitProfessional">Register as Professional</button>
-        </div>
-        <h3 style="color: red">{{ error }}</h3>
-        <h3 style="color: green">{{ professional_message }}</h3>
     </div>
 </template>
 
