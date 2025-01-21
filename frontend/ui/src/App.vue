@@ -52,5 +52,10 @@ nav a.router-link-exact-active {
 
 a { text-decoration: none; }
 router-link { text-decoration: none;}
+
+::-webkit-scrollbar { /*To hide scrollbar*/
+    display: none;
+} 
+
 @import'~bootstrap/dist/css/bootstrap.css'
 </style>

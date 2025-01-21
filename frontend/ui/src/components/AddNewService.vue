@@ -8,7 +8,7 @@
             <textarea v-model="description" class="form-control" />
             <br>
             <label for="basePrice" class="form-label">Base Price: </label>
-            <input type="number" v-model="price" class="form-control">
+            <input type="number" v-model="base_price" class="form-control">
             <br>
             <label for="timeRequired" class="form-label">Time Required (in hours): </label>
             <input type="number" v-model="time_required" class="form-control">

@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <div v-if="!show_update" class="card m-1">
-          <h4>Name: {{ service.name }}</h4> 
-          <h5>Base Price: {{ service.price }}</h5>
-          <h5 v-if="service.time_required <= 1">Time Required: {{ service.time_required }} hour</h5>
-          <h5 v-else>Time Required: {{ service.time_required }} hours</h5>
-          <p>Description: {{ service.description }}</p>
-
-          <button @click="updateService" class="btn">Update</button>
-          <button @click="deleteService" class="btn">Delete</button>
+    <div class="card m-3">
+        <div v-if="!show_update" class="">
+          <div class="m-3">
+            <h4>Name: {{ service.name }}</h4> 
+            <h5>Base Price: {{ service.price }}</h5>
+            <h5 v-if="service.time_required <= 1">Time Required: {{ service.time_required }} hour</h5>
+            <h5 v-else>Time Required: {{ service.time_required }} hours</h5>
+            <p>Description: {{ service.description }}</p>
+          </div>
+          <button @click="updateService" class="btn btn-success m-3">Update</button>
+          <button @click="deleteService" class="btn btn-danger m-3">Delete</button>
         </div>
-        <div v-else class="card m-1">
-          <label for="serviceName" class="form-label">Sevice Name: </label>
+        <div v-else class="">
+          <div class="card m-3">
+            <label for="serviceName" class="form-label">Service Name: </label>
             <input type="text" v-model="name" class="form-control">
             <br>
             <label for="description" class="form-label">Description: </label>
@@ -25,6 +27,7 @@
             <br>
             <button @click="emitUpdate" class="btn">Update</button>
             <button @click="this.show_update = !this.show_update" class="btn">Cancel</button>
+          </div>
         </div>
     </div>
 </template>

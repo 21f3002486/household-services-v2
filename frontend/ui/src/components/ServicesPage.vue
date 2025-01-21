@@ -4,18 +4,21 @@
         <button @click="getServices" class="btn">Refresh page</button>
         <button class="btn"><router-link to="/admin/services/addnewservice">Add New Service</router-link></button>
         <!-- {{ services }} -->
-        <div class="d-flex">
+        <div class="d-flex justify-content-center">
+        <div class="row row-cols-2 row-cols-md-4">
         <ShowServices 
             v-for="service in services"
             :key="service.service_id"
             @update-service="updateService"
             @delete-service="areyousurefn"
             :service="service"
+            class="col"
         />
         </div>
         </div>
+        </div>
         <div v-else>
-            <button @click="deleteService" class="btn">Are you sure you want to delete this service?</button>
+            <button @click="deleteService" class="btn btn-danger">Are you sure you want to delete this service?</button>
         </div>
         <router-view />
     </div>
