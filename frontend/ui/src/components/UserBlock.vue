@@ -1,8 +1,8 @@
 <template>
-    <div>
-        {{ user.email_id }}
-        <button v-if="this.is_blocked" @click="updateUserStatus">Unblock</button>
-        <button v-else @click="updateUserStatus">Block</button>
+    <div class="m-2 p-2 d-flex justify-content-evenly align-content-evenly border bg-light">
+        <p class="m-1 p-1">{{ user.email_id }}</p>
+        <button class="btn btn-success" v-if="this.is_blocked" @click="updateUserStatus">Unblock</button>
+        <button class="btn btn-danger" v-else @click="updateUserStatus">Block</button>
     </div>
 </template>
 

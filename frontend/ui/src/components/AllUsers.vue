@@ -1,22 +1,25 @@
 <template>
-    <div>
+    <div class="container d-flex justify-content-center">
         <h3 style="color: red">{{ error }}</h3>
 
-        Customers:
-        <UserBlock 
-            v-for="customer in customers" 
-            :key="customer.user_id" 
-            :user="customer" 
-            @bub="updateUserStatus"
-        />
-
-        Professionals:
-        <UserBlock 
-            v-for="professional in professionals" 
-            :key="professional.user_id" 
-            :user="professional" 
-            @bub="updateUserStatus" 
-        />
+        <div class="m-2 p-2 border">
+            Customers:
+            <UserBlock 
+                v-for="customer in customers" 
+                :key="customer.user_id" 
+                :user="customer" 
+                @bub="updateUserStatus"
+            />
+        </div>
+        <div class="m-2 p-2 border">
+            Professionals:
+            <UserBlock 
+                v-for="professional in professionals" 
+                :key="professional.user_id" 
+                :user="professional" 
+                @bub="updateUserStatus" 
+            />
+        </div>
     </div>
 </template>
 

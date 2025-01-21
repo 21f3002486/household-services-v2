@@ -2,7 +2,7 @@
   <div class="card">
     <!-- Card Header -->
     <div class="card-header" @click="toggleExpand">
-      <h3>{{ professional.email_id }}</h3>
+      <h6 class="m-1 p-1">{{ professional.email_id }}</h6>
       <button class="toggle-button">{{ expanded ? "Collapse" : "Expand" }}</button>
     </div>
 
