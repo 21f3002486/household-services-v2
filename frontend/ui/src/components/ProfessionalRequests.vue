@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <ExpandableCard 
-      v-for="professional in profos"
-      :key="professional.user_id"
-      :professional="professional"
-      @approve="approveProfessional"
-    />
+  <div class="d-flex justify-content-center">
+  <div v-if="profos.length !== 0">
+    <div>
+      <ExpandableCard 
+        v-for="professional in profos"
+        :key="professional.user_id"
+        :professional="professional"
+        @approve="approveProfessional"
+      />
+    </div>
   </div>
+  <div v-else>
+    There are no requests from new professionals!
+  </div>
+</div>
 </template>
 
 <script>
@@ -46,6 +53,7 @@ import ExpandableCard from './ExpandableCard.vue';
       .then(data => {
         if(data.message=="Got requests"){
           this.profos = data.professionals;
+          // console.log(this.profos);
         }
       })
     }
