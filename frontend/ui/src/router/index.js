@@ -9,7 +9,7 @@ import AllUsers from '@/components/AllUsers.vue'
 import ServicesPage from '@/components/ServicesPage.vue'
 import ProfessionalRequests from '@/components/ProfessionalRequests.vue'
 import AddNewService from '@/components/AddNewService.vue'
-// import SearchServices from '@/components/SearchServices.vue'
+import SearchServices from '@/components/SearchServices.vue'
 
 const routes = [
   // {
@@ -62,10 +62,10 @@ const routes = [
     name: 'customer',
     component: CustomerPage,
     children:[
-      // {
-      //   path: '/searchservices',
-      //   component: SearchServices
-      // }
+      {
+        path: 'searchservices',
+        component: SearchServices
+      }
     ]
   },
   {

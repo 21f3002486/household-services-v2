@@ -1,11 +1,14 @@
 <template>
-    <div>
-    <div v-if="this.$store.state.is_logged_in && this.$store.state.role=='customer' && !this.$store.state.is_blocked">
-        Customer Page
-        <button><router-link to='/customer/searchservices'>Search Services</router-link></button>
-        My requests:
+    <div class="container">
+    <div v-if="this.$store.state.is_logged_in && this.$store.state.role=='customer' && !this.$store.state.is_blocked" class="d-flex justify-content-evenly">
+        <div>
+            <button class="btn">Customer Page</button>
+        </div>
+        <div>
+            <button class="btn"><router-link to='/customer/searchservices'>Search Services</router-link></button>
+            <button class="btn">My Service Requests</button>
+        </div>
         <!-- Put previous requests here -->
-        <router-link />
     </div>
     <div v-else-if="this.$store.state.is_blocked">
         You have been blocked by the admin.
@@ -21,6 +24,7 @@
             {{ this.$router.push('/login') }}
         </div>
     </div>
+    <router-view />
 </div>
 </template>
 

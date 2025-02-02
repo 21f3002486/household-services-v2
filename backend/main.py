@@ -276,12 +276,6 @@ class AddService(Resource):
 
         return jsonify({'message': 'Service added successfully'})
 
-    def get(self):
-        pre_services = SERVICE.query.all()
-        services = [s.to_dict() for s in pre_services]
-
-        return jsonify({'services': services})
-
 class UpdateService(Resource):
     def post(self):
         data = request.get_json()
@@ -323,6 +317,23 @@ class DeleteService(Resource):
         
         return jsonify({'message': "Service has been deleted"})
 
+class GetServicesBySearch(Resource):
+    def post(self):
+        data = request.get_json()
+        serviceName = data.get('serviceName')
+
+        print('backend: got this service name: {}'.format(serviceName))
+
+        search = '%{}%'.format(serviceName)
+
+        result = SERVICE.query.filter(SERVICE.name.like(search)).all()
+
+        print(result)
+
+        services = [s.to_dict() for s in result]
+
+        return jsonify({'message':'Got searched services', 'services':services})
+
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -333,6 +344,7 @@ api.add_resource(ProfessionalRequests, '/professionalrequests')
 api.add_resource(AddService, '/addservice')
 api.add_resource(UpdateService, '/updateservice')
 api.add_resource(DeleteService, '/deleteservice')
+api.add_resource(GetServicesBySearch, '/getservices')
 
 with app.app_context():
     db.create_all()

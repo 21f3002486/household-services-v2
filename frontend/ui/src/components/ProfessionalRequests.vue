@@ -6,6 +6,7 @@
         v-for="professional in profos"
         :key="professional.user_id"
         :professional="professional"
+        :is_approved="professional.is_approved"
         @approve="approveProfessional"
       />
     </div>

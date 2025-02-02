@@ -39,7 +39,15 @@
         },
         methods:{
             getServices(){
-                fetch('http://127.0.0.1:5000/addservice')
+                fetch('http://127.0.0.1:5000/getservices',{
+                    method: "POST",
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'serviceName': ""
+                    })
+                })
                 .then(resp => resp.json())
                 .then(data =>{
                     this.services = data.services

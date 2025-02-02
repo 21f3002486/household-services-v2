@@ -1,6 +1,6 @@
 <template>
-    <div>
-        Logged Out successfully!
+    <div class="container d-flex justify-content-center">
+        <h5 class="m-5">Logged Out Successfully!</h5>
     </div>
 </template>
 
