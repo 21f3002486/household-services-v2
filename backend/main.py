@@ -332,6 +332,8 @@ class GetServicesBySearch(Resource):
 
         services = [s.to_dict() for s in result]
 
+        print(services)
+
         return jsonify({'message':'Got searched services', 'services':services})
 
 #############################################################################
