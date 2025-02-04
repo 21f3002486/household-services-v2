@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center">
+    <div class="container">
         <!-- Is approved flag: {{ isapproved_flag }} -->
     <div v-if="!isapproved_flag">
         {{ error }}

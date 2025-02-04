@@ -322,19 +322,35 @@ class GetServicesBySearch(Resource):
         data = request.get_json()
         serviceName = data.get('serviceName')
 
-        print('backend: got this service name: {}'.format(serviceName))
+        # print('backend: got this service name: {}'.format(serviceName))
 
         search = '%{}%'.format(serviceName)
 
         result = SERVICE.query.filter(SERVICE.name.like(search)).all()
 
-        print(result)
+        # print(result)
 
         services = [s.to_dict() for s in result]
 
-        print(services)
+        # print(services)
 
         return jsonify({'message':'Got searched services', 'services':services})
+
+class GetUsersBySearch(Resource):
+    def post(self):
+        data = request.get_json()
+
+        emailId = data.get('username')
+
+        search = '%{}%'.format(emailId)
+
+        c = db.session.query(CUSTOMER).join(USER).filter(USER.emailId.like(search)).all()
+        p = db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId.like(search)).all()
+
+        customers = [cs.to_dict() for cs in c]
+        professionals = [ps.to_dict() for ps in p]
+
+        return jsonify({'message': 'got searched users', 'customers': customers, 'professionals': professionals})
 
 #############################################################################
 
@@ -347,6 +363,7 @@ api.add_resource(AddService, '/addservice')
 api.add_resource(UpdateService, '/updateservice')
 api.add_resource(DeleteService, '/deleteservice')
 api.add_resource(GetServicesBySearch, '/getservices')
+api.add_resource(GetUsersBySearch, '/getusersbysearch')
 
 with app.app_context():
     db.create_all()
