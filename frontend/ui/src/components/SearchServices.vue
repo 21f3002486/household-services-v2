@@ -10,6 +10,7 @@
                 <ShowServicesCustomer 
                     v-for="service in services"
                     :key="service.service_id"
+                    @bookService="bookService"
                     :service="service"
                     class="col"
                 />
@@ -35,6 +36,21 @@ import ShowServicesCustomer from './ShowServicesCustomer.vue';
             }
         },
         methods:{
+            bookService(id){
+                fetch('http://127.0.0.1:5000/bookservice',{
+                    method: "POST",
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'service_id': id
+                    })
+                })
+                .then(resp => resp.json())
+                .then(data => {
+                    console.log("Data after booking service: ", data);
+                })
+            },
             getServices(e){{
                 e.preventDefault();
                 console.log(this.serviceName);

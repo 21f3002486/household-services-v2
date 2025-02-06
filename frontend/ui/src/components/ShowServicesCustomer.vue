@@ -1,6 +1,6 @@
 <template>
     <div class="card m-1">
-        <!-- <div v-if="!show_update" class=""> -->
+        <div v-if="!click_book" class="">
           <div class="">
             <h5>Name: {{ service.name }}</h5> 
             <h6>Base Price: {{ service.price }}</h6>
@@ -8,27 +8,13 @@
             <h6 v-else>Time Required: {{ service.time_required }} hours</h6>
             <p>Description: {{ service.description }}</p>
           </div>
-          <!-- <button @click="updateService" class="btn btn-success m-3">Update</button>
-          <button @click="deleteService" class="btn btn-danger m-3">Delete</button> -->
-        <!-- </div> -->
-        <!-- <div v-else class=""> -->
-          <!-- <div class="card m-3">
-            <label for="serviceName" class="form-label">Service Name: </label>
-            <input type="text" v-model="name" class="form-control">
-            <br>
-            <label for="description" class="form-label">Description: </label>
-            <textarea v-model="description" class="form-control"/>
-            <br>
-            <label for="basePrice" class="form-label">Base Price: </label>
-            <input type="number" v-model="price" class="form-control">
-            <br>
-            <label for="timeRequired" class="form-label">Time Required (in hours): </label>
-            <input type="number" v-model="time_required" class="form-control">
-            <br>
-            <button @click="emitUpdate" class="btn">Update</button>
-            <button @click="this.show_update = !this.show_update" class="btn">Cancel</button>
-          </div> -->
-        <!-- </div> -->
+          <div>
+            <button class="btn btn-success" @click="bookService">Book</button>
+          </div>
+        </div>
+        <div v-else class="">
+          <h6 class="text-success">Service successfully booked!</h6>
+        </div>
     </div>
 </template>
 
@@ -43,9 +29,14 @@
         time_required: this.service.time_required,
         description: this.service.description,
         // show_update: false
+        click_book: false
       } 
     },
     methods:{
+      bookService(e){
+        this.$emit('bookService', this.service.service_id);
+        this.click_book = true;
+      }
     //   emitUpdate(){
     //     console.log(this.service.service_id, this.name, this.price, this.time_required, this.description)
     //     this.$emit('update-service', this.service.service_id, this.name, this.price, this.time_required, this.description);

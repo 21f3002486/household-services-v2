@@ -352,6 +352,22 @@ class GetUsersBySearch(Resource):
 
         return jsonify({'message': 'got searched users', 'customers': customers, 'professionals': professionals})
 
+class BookService(Resource):
+    @jwt_required()
+    def post(self):
+        current_user = get_jwt_identity()
+        user_email_id = current_user.emailId
+
+        data = request.get_json()
+        service_id = data.get('service_id')
+        print('backend got service_id', service_id)
+
+        service = SERVICE.query.filterby(id=service_id).first()
+
+        customer = db.session.query(CUSTOMER).join(USER).filterby(USER.emailId.like(user_email_id)).first()
+        professional = 
+
+
 #############################################################################
 
 api.add_resource(Register, '/register')
