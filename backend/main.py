@@ -230,7 +230,6 @@ class GetUsers(Resource):
 
         return jsonify({'message': 'success'})
 
-
 class IsAccepted(Resource):
     @jwt_required()
     def get(self):
@@ -391,6 +390,19 @@ class BookService(Resource):
         print('commited')
 
         return jsonify({'message': 'Service requested successfully'})
+
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        customer_email = current_user['emailId']
+
+        customer = db.session.query(CUSTOMER).join(USER).filter(USER.emailId.like(customer_email)).first()
+
+        pre_sreqs = SERVICEREQUEST.query.filter_by(customer_id=customer.id).all()
+
+        sreqs = [srq.to_dict() for srq in pre_sreqs]
+
+        return jsonify({'message': 'Here are service requests for this user', 'service_requests': sreqs})
 
 
 #############################################################################

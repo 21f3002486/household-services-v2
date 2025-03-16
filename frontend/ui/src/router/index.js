@@ -10,6 +10,7 @@ import ServicesPage from '@/components/ServicesPage.vue'
 import ProfessionalRequests from '@/components/ProfessionalRequests.vue'
 import AddNewService from '@/components/AddNewService.vue'
 import SearchServices from '@/components/SearchServices.vue'
+import MyServiceRequests from '@/components/MyServiceRequests.vue'
 
 const routes = [
   // {
@@ -65,6 +66,10 @@ const routes = [
       {
         path: 'searchservices',
         component: SearchServices
+      },
+      {
+        path: 'myservicerequests',
+        component: MyServiceRequests
       }
     ]
   },
