@@ -14,7 +14,7 @@
             </div>
             <br>
             <div v-if="role == 'customer'">
-                <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
+                <label class="form-label" for="emailId" name="emailId">Email ID: </label>
                 <input class="form-control" type="text" name="emailId" v-model="emailId">
                 <br>
                 <label class="form-label" for="password" name="password">Password: </label>
@@ -29,19 +29,26 @@
                 <button class="btn btn-success w-100" @click="submitCustomer">Register as Customer</button>
             </div>
             <div v-else>
-                <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
-                <input class="form-control" type="text" name="emailId" v-model="emailId">
-                <br>
-                <label class="form-label" for="password" name="password">Password: </label>
-                <input class="form-control" type="password" name="password" v-model="password">
-                <br>
-                <label class="form-label" for="service_type" name="service_type">Service Type: </label>
-                <input class="form-control" type="text" name="service_type" v-model="service_type">
-                <br>
-                <label class="form-label" for="experience" name="experience">Experience (in years): </label>
-                <input class="form-control" type="number" name="experience" v-model="experience">
-                <br>
-                <button class="btn btn-success w-100" @click="submitProfessional">Register as Professional</button>
+                <div v-if="availableServices.length !== 0">
+                    <label class="form-label" for="emailId" name="emailId">Email ID: </label>
+                    <input class="form-control" type="text" name="emailId" v-model="emailId">
+                    <br>
+                    <label class="form-label" for="password" name="password">Password: </label>
+                    <input class="form-control" type="password" name="password" v-model="password">
+                    <br>
+                    <label for="">Service Type</label>
+                    <select class="form-select" v-model="service_type">
+                        <option v-for="service in availableServices" :key="service.id" :value="service.name">{{ service.name }}</option>
+                    </select>
+                    <br>
+                    <label class="form-label" for="experience" name="experience">Experience (in years): </label>
+                    <input class="form-control" type="number" name="experience" v-model="experience">
+                    <br>
+                    <button class="btn btn-success w-100" @click="submitProfessional">Register as Professional</button>
+                </div>
+                <div v-else>
+                    The admin has not created any services yet. Please wait for them to create services :)
+                </div>
             </div>
             <h3 style="color: red">{{ error }}</h3>
             <h3 style="color: green">{{ professional_message }}</h3>
@@ -60,6 +67,7 @@
                 address: '',
                 phone_number: '',
                 service_type: '',
+                availableServices: [],
                 experience: '',
                 error: '',
                 professional_message: ''
@@ -124,6 +132,22 @@
                     }
                 })
             }
+        },
+        mounted(){
+            fetch('http://127.0.0.1:5000/getservices', {
+                method: "POST",
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'serviceName': ""
+                    })
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                this.availableServices = data.services;
+                console.log('available services: ', this.availableServices);
+            })
         }
     }
 </script>

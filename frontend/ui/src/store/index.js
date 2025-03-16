@@ -22,6 +22,7 @@ export default createStore({
       state.role = '';
       state.token = '';
       state.is_blocked = false;
+      localStorage.clear();
     }
   },
   actions: {

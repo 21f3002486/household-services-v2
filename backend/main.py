@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -172,6 +173,8 @@ class Login(Resource):
         role = data.get('role')
 
         user = USER.query.filter_by(emailId=emailId).first()
+
+        # print(user)
 
         if user:
             if user.password == password:
@@ -356,16 +359,38 @@ class BookService(Resource):
     @jwt_required()
     def post(self):
         current_user = get_jwt_identity()
-        user_email_id = current_user.emailId
+        # print(current_user)
+        user_email_id = current_user['emailId']
 
         data = request.get_json()
+        date = datetime.strptime(data.get('date'), "%Y-%m-%d")
         service_id = data.get('service_id')
+        professional_id = data.get('professional_id')
+
+        print('backend got this date', date)
         print('backend got service_id', service_id)
+        print('backend got this professional id', professional_id)
 
-        service = SERVICE.query.filterby(id=service_id).first()
+        customer = db.session.query(CUSTOMER).join(USER).filter(USER.emailId.like(user_email_id)).first()
 
-        customer = db.session.query(CUSTOMER).join(USER).filterby(USER.emailId.like(user_email_id)).first()
-        professional = 
+        print(customer)
+
+        service_request = SERVICEREQUEST(
+            service_id=service_id, 
+            customer_id=customer.id, 
+            professional_id=professional_id,
+            date_of_request=date
+        )
+
+        db.session.add(service_request)
+
+        print('done')
+
+        db.session.commit()
+
+        print('commited')
+
+        return jsonify({'message': 'Service requested successfully'})
 
 
 #############################################################################
@@ -380,6 +405,7 @@ api.add_resource(UpdateService, '/updateservice')
 api.add_resource(DeleteService, '/deleteservice')
 api.add_resource(GetServicesBySearch, '/getservices')
 api.add_resource(GetUsersBySearch, '/getusersbysearch')
+api.add_resource(BookService, '/bookservice')
 
 with app.app_context():
     db.create_all()

@@ -10,7 +10,7 @@
                 <ShowServicesCustomer 
                     v-for="service in services"
                     :key="service.service_id"
-                    @bookService="bookService"
+                    @requestService="bookService"
                     :service="service"
                     class="col"
                 />
@@ -36,20 +36,26 @@ import ShowServicesCustomer from './ShowServicesCustomer.vue';
             }
         },
         methods:{
-            bookService(id){
+            bookService(date, service_id, professional_id){
                 fetch('http://127.0.0.1:5000/bookservice',{
                     method: "POST",
+                    mode: "cors",
                     headers:{
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + this.$store.state.token,
+                        'Access-Control-Allow-Origin': "*"
                     },
                     body: JSON.stringify({
-                        'service_id': id
+                        "date": date,
+                        "service_id": service_id,
+                        "professional_id": professional_id
                     })
                 })
                 .then(resp => resp.json())
                 .then(data => {
                     console.log("Data after booking service: ", data);
                 })
+                .catch(e => console.log(e))
             },
             getServices(e){{
                 e.preventDefault();

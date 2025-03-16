@@ -37,7 +37,7 @@
             fetch('http://127.0.0.1:5000/isaccepted', {
                 method: "GET",
                 headers:{
-                    "Authorization": "Bearer " + localStorage.token,
+                    "Authorization": "Bearer " + this.$store.state.token,
                     "Access-Control-Allow-Origin": "*"
                 }
             })
