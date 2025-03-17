@@ -404,6 +404,22 @@ class BookService(Resource):
 
         return jsonify({'message': 'Here are service requests for this user', 'service_requests': sreqs})
 
+class DeleteServiceRequest(Resource):
+    def post(self):
+        data = request.get_json()
+        print(data)
+
+        id = data['id']
+
+        sreq = SERVICEREQUEST.query.filter_by(id=id).first()
+
+        db.session.delete(sreq)
+
+        db.session.commit()
+
+        return jsonify({'message': 'Service request successfully deleted'})
+
+
 
 #############################################################################
 
@@ -418,6 +434,7 @@ api.add_resource(DeleteService, '/deleteservice')
 api.add_resource(GetServicesBySearch, '/getservices')
 api.add_resource(GetUsersBySearch, '/getusersbysearch')
 api.add_resource(BookService, '/bookservice')
+api.add_resource(DeleteServiceRequest, '/deleteservicerequest')
 
 with app.app_context():
     db.create_all()
