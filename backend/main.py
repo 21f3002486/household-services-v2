@@ -448,6 +448,41 @@ class Request(Resource):
 
         return jsonify({'message': 'Service request {} {}ed'.format(id, type)})
     
+class GetMe(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        email = current_user['emailId']
+
+        user = USER.query.filter_by(emailId=email).first()
+
+        if user.role == 'admin':
+            customers = [c.to_dict() for c in CUSTOMER.query.all()]
+            professionals = [p.to_dict() for p in PROFESSIONAL.query.all()]
+            services = [s.to_dict() for s in SERVICE.query.all()]
+            service_requests = [sr.to_dict() for sr in SERVICEREQUEST.query.all()]
+
+            return jsonify({
+                'customers': customers, 
+                'professionals': professionals, 
+                'services': services,
+                'service_requests': service_requests
+            })
+        
+        elif user.role == 'customer':
+            service_requests = [sr.to_dict() for sr in db.session.query(SERVICEREQUEST).join(USER, USER.id == SERVICEREQUEST.customer_id).filter(USER.emailId == email).all()]
+            return jsonify({
+                'me': db.session.query(CUSTOMER).join(USER).filter(USER.emailId==email).first().to_dict(),
+                'my_service_requests': service_requests
+            })
+        
+        elif user.role == 'professional':
+            service_requests = [sr.to_dict() for sr in db.session.query(SERVICEREQUEST).join(USER, USER.id == SERVICEREQUEST.professional_id).filter(USER.emailId == email).all()]
+            return jsonify({
+                'me': db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId==email).first().to_dict(),
+                'my_service_requests': service_requests
+            })
+
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -464,6 +499,7 @@ api.add_resource(BookService, '/bookservice')
 api.add_resource(DeleteServiceRequest, '/deleteservicerequest')
 api.add_resource(ProfServiceRequests, '/getprofserreqs')
 api.add_resource(Request, '/request')
+api.add_resource(GetMe, '/getme')
 
 with app.app_context():
     db.create_all()

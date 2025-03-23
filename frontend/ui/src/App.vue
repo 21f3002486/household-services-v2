@@ -11,7 +11,10 @@
           <button class="btn"><router-link to="/register">Register</router-link></button>
         </div>
       </div>
-      <div v-else>
+      <div v-else class="d-flex justify-content-around">
+        <div>
+          <button class="btn">RuralClap</button>
+        </div>
         <button class="btn"><router-link to="/logout">Logout</router-link></button>
       </div>
     </nav>
