@@ -12,13 +12,9 @@ import AddNewService from '@/components/AddNewService.vue'
 import SearchServices from '@/components/SearchServices.vue'
 import MyServiceRequests from '@/components/MyServiceRequests.vue'
 import ProfServiceRequest from '@/components/ProfServiceRequest.vue'
+import AdminHomePage from '@/components/AdminHomePage.vue'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'landing',
-  //   component: LandingPage
-  // },
   {
     path: '/login',
     name: 'login',
@@ -34,6 +30,10 @@ const routes = [
     name: 'admin',
     component: AdminHome,
     children:[
+      {
+        path: 'home',
+        component: AdminHomePage
+      },
       {
         path: 'allusers',
         component: AllUsers

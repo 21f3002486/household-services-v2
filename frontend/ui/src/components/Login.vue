@@ -68,7 +68,7 @@
                         this.$store.commit('loginUser', {"role": this.role, "token": d.token, "is_blocked": d.is_blocked});
                         localStorage.token = d.token;
                         if(this.role == "admin"){
-                            this.$router.push('/admin')
+                            this.$router.push('/admin/home')
                         }else if(this.role == "customer"){
                             this.$router.push('/customer')
                         }else{

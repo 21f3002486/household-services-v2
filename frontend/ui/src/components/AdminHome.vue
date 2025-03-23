@@ -2,7 +2,7 @@
     <div class="container">
         <div class="navbar justify-content-evenly" v-if="this.$store.state.role == 'admin'">
             <div>
-                <router-link to="/admin">Welcome to Admin's Dashboard</router-link>
+                <router-link to="/admin/home">Welcome to Admin's Dashboard</router-link>
             </div>
             <!-- <button @click="showToken">Show token</button>
             <h3 v-if="token != '' ">{{ token }}</h3> -->
