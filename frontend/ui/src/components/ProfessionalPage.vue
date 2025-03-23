@@ -4,8 +4,13 @@
     <div v-if="!isapproved_flag">
         {{ error }}
     </div>
-    <div v-else-if="this.$store.state.is_logged_in && this.$store.state.role=='professional' && !this.$store.state.is_blocked">
-        Professional Page
+    <div v-else-if="this.$store.state.is_logged_in && this.$store.state.role=='professional' && !this.$store.state.is_blocked" class="d-flex justify-content-evenly">
+        <div>
+            <button class="btn"><router-link to='/professional'>Professional Page</router-link></button>
+        </div>
+        <div>
+            <button class="btn"><router-link to='/professional/myservicerequests'>My Service Requests</router-link></button>
+        </div>
     </div>
     <div v-else-if="this.$store.state.is_blocked">
         You have been blocked by the admin.
@@ -21,6 +26,7 @@
             {{ this.$router.push('/login') }}
         </div>
     </div>
+    <router-view></router-view>
 </div>
 </template>
 

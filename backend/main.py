@@ -107,7 +107,7 @@ class SERVICEREQUEST(db.Model):
     professional_id = db.Column(db.Integer, db.ForeignKey('professional.id', ondelete="CASCADE"), nullable=True)
     date_of_request = db.Column(db.DateTime, nullable=False)
     date_of_completion = db.Column(db.DateTime, nullable=True)
-    service_status = db.Column(db.String(20), nullable=False, default="requested")  # requested, assigned, closed
+    service_status = db.Column(db.String(20), nullable=False, default="open")  # open, accepted, closed, rejected
     remarks = db.Column(db.String(200), nullable=True)
 
     service = db.relationship('SERVICE', backref='service_request')#, cascade="all, delete-orphan")
@@ -419,8 +419,35 @@ class DeleteServiceRequest(Resource):
 
         return jsonify({'message': 'Service request successfully deleted'})
 
+class ProfServiceRequests(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        email = current_user['emailId']
+        prof = db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId.like(email)).first()
 
+        pre_prof_ser_reqs = SERVICEREQUEST.query.filter_by(professional_id=prof.id).all()
 
+        prof_ser_reqs = [psr.to_dict() for psr in pre_prof_ser_reqs]
+
+        return jsonify({'message': "got professional's service requests", 'prof_ser_reqs': prof_ser_reqs})
+
+class Request(Resource):
+    def get(self):
+        id = request.args.get('id')
+        type = request.args.get('type')
+
+        request = SERVICEREQUEST.query.filter_by(service_request_id=id).first()
+
+        if type == 'accept':
+            request.service_status = 'accepted'
+        elif type == 'reject':
+            request.service_status = 'rejected'
+
+        db.session.commit()
+
+        return jsonify({'message': 'Service request {} {}ed'.format(id, type)})
+    
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -435,6 +462,8 @@ api.add_resource(GetServicesBySearch, '/getservices')
 api.add_resource(GetUsersBySearch, '/getusersbysearch')
 api.add_resource(BookService, '/bookservice')
 api.add_resource(DeleteServiceRequest, '/deleteservicerequest')
+api.add_resource(ProfServiceRequests, '/getprofserreqs')
+api.add_resource(Request, '/request')
 
 with app.app_context():
     db.create_all()

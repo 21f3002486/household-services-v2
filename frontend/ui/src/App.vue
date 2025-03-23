@@ -1,10 +1,15 @@
 <template>
   <div>
     <!-- {{ storedata }} -->
-    <nav class="d-flex justify-content-center bg-light mb-3">
-      <div v-if="!this.$store.state.is_logged_in">
-        <button class="btn"><router-link to="/login">Login</router-link></button> | 
-        <button class="btn"><router-link to="/register">Register</router-link></button>
+    <nav class="bg-light mb-3">
+      <div v-if="!this.$store.state.is_logged_in" class="d-flex justify-content-around">
+        <div>
+          <button class="btn">RuralClap</button>
+        </div>
+        <div>
+          <button class="btn"><router-link to="/login">Login</router-link></button> | 
+          <button class="btn"><router-link to="/register">Register</router-link></button>
+        </div>
       </div>
       <div v-else>
         <button class="btn"><router-link to="/logout">Logout</router-link></button>

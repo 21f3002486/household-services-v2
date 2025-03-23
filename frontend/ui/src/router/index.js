@@ -11,6 +11,7 @@ import ProfessionalRequests from '@/components/ProfessionalRequests.vue'
 import AddNewService from '@/components/AddNewService.vue'
 import SearchServices from '@/components/SearchServices.vue'
 import MyServiceRequests from '@/components/MyServiceRequests.vue'
+import ProfServiceRequest from '@/components/ProfServiceRequest.vue'
 
 const routes = [
   // {
@@ -76,7 +77,13 @@ const routes = [
   {
     path: '/professional',
     name: 'professional',
-    component: ProfessionalPage
+    component: ProfessionalPage,
+    children:[
+      {
+        path: 'myservicerequests',
+        component: ProfServiceRequest
+      }
+    ]
   },
 ]
 
