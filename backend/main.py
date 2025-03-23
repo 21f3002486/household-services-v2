@@ -500,6 +500,20 @@ class AddRemarks(Resource):
         db.session.commit()
 
         return jsonify({'message': 'Review submitted successfully!'})
+
+class UpdateRequest(Resource):
+    def post(self):
+        data = request.get_json()
+        service_request_id, date = data['id'], data['date']
+
+        sreq = SERVICEREQUEST.query.filter_by(id=service_request_id).first()
+
+        sreq.date_of_request = datetime.strptime(date, "%Y-%m-%d")
+
+        db.session.commit()
+
+        return jsonify({'message': 'Request updated successfully'})
+
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -518,6 +532,7 @@ api.add_resource(ProfServiceRequests, '/getprofserreqs')
 api.add_resource(Request, '/request')
 api.add_resource(GetMe, '/getme')
 api.add_resource(AddRemarks, '/addremarks')
+api.add_resource(UpdateRequest, '/updatedate')
 
 with app.app_context():
     db.create_all()
