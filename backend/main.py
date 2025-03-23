@@ -106,7 +106,7 @@ class SERVICEREQUEST(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id', ondelete="CASCADE"), nullable=False)
     professional_id = db.Column(db.Integer, db.ForeignKey('professional.id', ondelete="CASCADE"), nullable=True)
     date_of_request = db.Column(db.DateTime, nullable=False)
-    date_of_completion = db.Column(db.DateTime, nullable=True)
+    rating = db.Column(db.Integer, nullable=True, default=0)
     service_status = db.Column(db.String(20), nullable=False, default="open")  # open, accepted, closed, rejected
     remarks = db.Column(db.String(200), nullable=True)
 
@@ -121,9 +121,10 @@ class SERVICEREQUEST(db.Model):
             'customer_id': self.customer_id,
             'professional_id': self.professional_id,
             'date_of_request': self.date_of_request,
-            'date_of_completion': self.date_of_completion,
             'service_status': self.service_status,
-            'remarks': self.remarks
+            'remarks': self.remarks,
+            'price': self.service.price,
+            'rating': self.rating
         }
 
 #############################################################################
@@ -426,7 +427,7 @@ class ProfServiceRequests(Resource):
         email = current_user['emailId']
         prof = db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId.like(email)).first()
 
-        pre_prof_ser_reqs = SERVICEREQUEST.query.filter_by(professional_id=prof.id).all()
+        pre_prof_ser_reqs = SERVICEREQUEST.query.filter_by(professional_id=prof.user_id).all()
 
         prof_ser_reqs = [psr.to_dict() for psr in pre_prof_ser_reqs]
 
@@ -437,12 +438,14 @@ class Request(Resource):
         id = request.args.get('id')
         type = request.args.get('type')
 
-        request = SERVICEREQUEST.query.filter_by(service_request_id=id).first()
+        req = SERVICEREQUEST.query.filter_by(id=id).first()
 
         if type == 'accept':
-            request.service_status = 'accepted'
+            req.service_status = 'accepted'
         elif type == 'reject':
-            request.service_status = 'rejected'
+            req.service_status = 'rejected'
+        elif type == 'close':
+            req.service_status = 'closed'
 
         db.session.commit()
 
@@ -483,6 +486,20 @@ class GetMe(Resource):
                 'my_service_requests': service_requests
             })
 
+class AddRemarks(Resource):
+    def post(self):
+        data = request.get_json()
+        service_request_id, remarks, rating = data['id'], data['remarks'], data['rating']
+
+        sreq = SERVICEREQUEST.query.filter_by(id=service_request_id).first()
+
+        sreq.remarks = remarks
+
+        sreq.rating = rating
+
+        db.session.commit()
+
+        return jsonify({'message': 'Review submitted successfully!'})
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -500,6 +517,7 @@ api.add_resource(DeleteServiceRequest, '/deleteservicerequest')
 api.add_resource(ProfServiceRequests, '/getprofserreqs')
 api.add_resource(Request, '/request')
 api.add_resource(GetMe, '/getme')
+api.add_resource(AddRemarks, '/addremarks')
 
 with app.app_context():
     db.create_all()

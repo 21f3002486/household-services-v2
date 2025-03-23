@@ -8,11 +8,12 @@
                     class="list-group-item d-flex justify-content-between align-items-center"
                 >
                 <div>
-                    <h5>Service Request #{{ request.service_request_id }}</h5>
-                    <p>Date: {{ request.date }}</p>
-                    <p>Price: ₹{{ request.price }}</p>
-                    <p>Status: {{ request.service_status }}</p>
-                    <p if="request.remarks != ''">Remarks: {{ request.remarks }}</p>
+                    <h5><strong>Service Request</strong> #{{ request.service_request_id }}</h5>
+                    <p><strong>Date:</strong> {{ request.date_of_request }}</p>
+                    <p><strong>Price:</strong> ₹{{ request.price }}</p>
+                    <p><strong>Status:</strong> {{ request.service_status }}</p>
+                    <p v-if="request.rating != 0" class="card-text"><strong>Rating: </strong><i v-for="star in 5" :key="star" :class="['fa', 'fa-star', star <= request.rating ? 'text-warning' : 'text-secondary']"></i></p>
+                    <p v-if="request.remarks"><strong>Remarks:</strong> {{ request.remarks }}</p>
                 </div>
                 <div v-if="request.service_status == 'open'">
                     <button class="btn btn-success me-2" @click="acceptRequest(request.service_request_id)">Accept</button>
