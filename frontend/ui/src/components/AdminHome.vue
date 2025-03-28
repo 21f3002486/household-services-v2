@@ -10,6 +10,10 @@
                 <button class="btn"><router-link to="/admin/allusers">Manage Users</router-link></button>
                 <button class="btn"><router-link to="/admin/services">Manage Services</router-link></button>
                 <button class="btn"><router-link to="/admin/requests">Manage Requests</router-link></button>
+                <button class="btn" @click="generateCSV">
+                    Export Service Requests
+                    <span v-if="waiting" class="border-spinner">...</span>
+                </button>
             </div>
         </div>
         <div v-else>
@@ -27,13 +31,26 @@
         name: 'AdminHome',
         data(){
             return{
-                // token: ''
+                waiting: false
             }
         },
         methods:{
-            // showToken(){
-            //     this.token = localStorage.getItem('token')
-            // }
+            async generateCSV(){
+                this.waiting = true;
+                const res = await fetch('http://127.0.0.1:5000/startcsvrequest')
+                const data = await res.json()
+                if (res.ok){
+                    const task_id = data['task_id']
+                    const intv = setInterval(async () => {
+                        const csv_res = await fetch(`http://127.0.0.1:5000/getcsvbytaskid?task_id=${task_id}`)
+                        if (csv_res.ok){
+                            this.waiting = false;
+                            clearInterval(intv)
+                            window.location.href = `http://127.0.0.1:5000/getcsvbytaskid?task_id=${task_id}`
+                        }
+                    }, 1000)
+                }
+            }
         }  
     }
 </script>
