@@ -10,10 +10,7 @@
                 <button class="btn"><router-link to="/admin/allusers">Manage Users</router-link></button>
                 <button class="btn"><router-link to="/admin/services">Manage Services</router-link></button>
                 <button class="btn"><router-link to="/admin/requests">Manage Requests</router-link></button>
-                <button class="btn" @click="generateCSV">
-                    Export Service Requests
-                    <span v-if="waiting" class="border-spinner">...</span>
-                </button>
+                <button class="btn btn-primary" @click="generateCSV">Export Service Requests</button>
             </div>
         </div>
         <div v-else>

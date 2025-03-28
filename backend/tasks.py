@@ -24,3 +24,7 @@ def make_csv_request():
         f.write(csv_output.data)
     
     return str(filename)
+
+@shared_task(ignore_result=False)
+def send_email_to_professional(message):
+    return message

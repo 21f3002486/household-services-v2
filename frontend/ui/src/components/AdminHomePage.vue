@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-    <h2 class="mb-4">Admin Dashboard</h2>
+    <h2 class="mb-4 text-center">Admin Dashboard</h2>
     <div class="row text-center">
       <div class="col-md-3 mb-3">
         <div class="card shadow-sm p-3">
