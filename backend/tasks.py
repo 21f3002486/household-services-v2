@@ -2,6 +2,8 @@ from celery import shared_task
 from models import SERVICEREQUEST
 import flask_excel as excel
 
+from mail_service import sendmail
+
 # CELERY TASKS
 @shared_task(ignore_result=False)
 def make_csv_request():
@@ -26,5 +28,6 @@ def make_csv_request():
     return str(filename)
 
 @shared_task(ignore_result=False)
-def send_email_to_professional(message):
-    return message
+def send_email_to_professional(to, subject):
+    sendmail(to, subject, 'Reminder to login')
+    return "Sent daily reminder to {}".format(to)

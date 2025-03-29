@@ -43,8 +43,8 @@ excel.init_excel(app)
 @celery_app.on_after_configure.connect
 def send_email(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=1, minute=30, day_of_week=6),
-        send_email_to_professional.s('Daily Reminder')
+        crontab(hour=11, minute=27, day_of_week=6),
+        send_email_to_professional.s('test@gmail.com', 'test from celery')
     )
 
 
