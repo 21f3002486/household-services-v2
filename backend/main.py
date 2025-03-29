@@ -16,7 +16,7 @@ from celery.schedules import crontab
 
 import flask_excel as excel
 
-from tasks import make_csv_request, send_email_to_professional
+from tasks import make_csv_request, send_email_to_professional, monthly_reminder_to_customers
 
 app = Flask(__name__)
 CORS(app)
@@ -43,10 +43,16 @@ excel.init_excel(app)
 @celery_app.on_after_configure.connect
 def send_email(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=11, minute=27, day_of_week=6),
-        send_email_to_professional.s('test@gmail.com', 'test from celery')
+        crontab(hour=19, minute=0),
+        send_email_to_professional.s()
     )
 
+@celery_app.on_after_configure.connect
+def send_monthly_summary(sender, **kwargs):
+    sender.add_periodic_task(
+        crontab(hour=0, minute=0, day_of_month=1),
+        monthly_reminder_to_customers.s()
+    )
 
 # APIs 
 
@@ -298,7 +304,7 @@ class BookService(Resource):
 
         service_request = SERVICEREQUEST(
             service_id=service_id, 
-            customer_id=customer.id, 
+            customer_id=customer.user_id, 
             professional_id=professional_id,
             date_of_request=date
         )

@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 
 SMTP_SERVER = 'localhost'
 SMTP_PORT = 1025
-SENDER_EMAIL = 'admin@gmail.com'
+SENDER_EMAIL = 'no-reply@ruralclap.in'
 SENDER_PASSWORD = ''
 
 
@@ -15,7 +15,7 @@ def sendmail(to, subject, content):
     msg["Subject"] = subject
     msg["From"] = SENDER_EMAIL
 
-    msg.attach(MIMEText(content, 'text'))
+    msg.attach(MIMEText(content, 'html'))
 
     client = smtplib.SMTP(host=SMTP_SERVER, port=SMTP_PORT)
 

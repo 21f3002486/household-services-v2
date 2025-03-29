@@ -29,6 +29,7 @@ class CUSTOMER(db.Model):
 
     def to_dict(self):
         return {
+            'customer_id': self.id,
             'user_id': self.user_id,
             'email_id': self.user.emailId,
             'role': self.user.role,
@@ -51,6 +52,7 @@ class PROFESSIONAL(db.Model):
 
     def to_dict(self):
         return {
+            'professional_id': self.id,
             'user_id': self.user_id,
             'email_id': self.user.emailId,
             'role': self.user.role,
