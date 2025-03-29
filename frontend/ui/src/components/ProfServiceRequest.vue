@@ -1,11 +1,12 @@
 <template>
     <div>
+        <h4 class="text-center">My Service Requests</h4>
         <div v-if="prof_ser_reqs.length != 0">
             <ul class="list-group">
                 <li
                     v-for="request in prof_ser_reqs"    
                     :key="request.id"
-                    class="list-group-item d-flex justify-content-between align-items-center"
+                    class="list-group-item d-flex justify-content-between align-items-center mt-3 mb-3"
                 >
                 <div>
                     <h5><strong>Service Request</strong> #{{ request.service_request_id }}</h5>

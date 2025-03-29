@@ -2,7 +2,7 @@
     <div class="container">
     <div v-if="this.$store.state.is_logged_in && this.$store.state.role=='customer' && !this.$store.state.is_blocked" class="d-flex justify-content-evenly">
         <div>
-            <button class="btn"><router-link to='/customer'>Customer Page</router-link></button>
+            <button class="btn"><router-link to='/customer/home'>Customer Page</router-link></button>
         </div>
         <div>
             <button class="btn"><router-link to='/customer/searchservices'>Search Services</router-link></button>

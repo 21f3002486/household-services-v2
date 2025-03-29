@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
 import os
@@ -15,6 +14,8 @@ from celery.result import AsyncResult
 from celery.schedules import crontab
 
 import flask_excel as excel
+
+from flask_caching import Cache
 
 from tasks import make_csv_request, send_email_to_professional, monthly_reminder_to_customers
 
@@ -36,6 +37,17 @@ celery_app = celery_init_app(app)
 
 excel.init_excel(app)
 
+config = {
+    "DEBUG": True,
+    "CACHE_TYPE": "RedisCache",
+    "CACHE_DEFAULT_TIMEOUT": 300,
+    "CACHE_KEY_PREFIX": "ruralclap",
+    "CACHE_REDIS_URL": "redis://localhost:6379/3"
+}
+
+app.config.from_mapping(config)
+cache = Cache(app)
+
 ####################################################################################
 
 # scheduled tasks
@@ -53,6 +65,8 @@ def send_monthly_summary(sender, **kwargs):
         crontab(hour=0, minute=0, day_of_month=1),
         monthly_reminder_to_customers.s()
     )
+
+####################################################################################
 
 # APIs 
 
@@ -127,6 +141,7 @@ class Login(Resource):
         return jsonify({"message": "GET of /login"})
     
 class GetUsers(Resource):
+    @cache.cached(timeout=20)
     def get(self):
         
         pre_customers = CUSTOMER.query.all()
@@ -400,16 +415,18 @@ class GetMe(Resource):
             })
         
         elif user.role == 'customer':
-            service_requests = [sr.to_dict() for sr in db.session.query(SERVICEREQUEST).join(USER, USER.id == SERVICEREQUEST.customer_id).filter(USER.emailId == email).all()]
+            my_details = db.session.query(CUSTOMER).join(USER).filter(USER.emailId==email).first().to_dict()
+            service_requests = [sr.to_dict() for sr in SERVICEREQUEST.query.filter_by(customer_id=my_details['customer_id']).all()]
             return jsonify({
-                'me': db.session.query(CUSTOMER).join(USER).filter(USER.emailId==email).first().to_dict(),
+                'me': my_details,
                 'my_service_requests': service_requests
             })
         
         elif user.role == 'professional':
-            service_requests = [sr.to_dict() for sr in db.session.query(SERVICEREQUEST).join(USER, USER.id == SERVICEREQUEST.professional_id).filter(USER.emailId == email).all()]
+            my_details = db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId==email).first().to_dict()
+            service_requests = [sr.to_dict() for sr in SERVICEREQUEST.query.filter_by(professional_id=my_details['user_id']).all()]
             return jsonify({
-                'me': db.session.query(PROFESSIONAL).join(USER).filter(USER.emailId==email).first().to_dict(),
+                'me': my_details,
                 'my_service_requests': service_requests
             })
 

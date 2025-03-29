@@ -58,7 +58,6 @@ def send_email_to_professional():
             <html>
                 <body>
                     <div>
-                        <h2 style="color: #dc3545;">Pending Service Requests!</h2>
                         <p>Hello <strong>{}</strong>,</p>
                         <p>You have no pending requests today!!</p>
                         <p><a href="http://localhost:8081" class="btn">Visit RuralClap</a></p>
@@ -67,37 +66,37 @@ def send_email_to_professional():
                     </div>
                 </body>
                 </html>
-            '''.format(email, pending_requests)
+            '''.format(email)
             sendmail(email, subject, content)
-        return "Sent daily reminder to professionals"
+    return "Sent daily reminder to professionals"
 
-    @shared_task(ignore_result=False)
-    def monthly_reminder_to_customers():
-        customers = CUSTOMER.query.all()
-        emails = [[c.to_dict()['email_id'], c.to_dict()['customer_id']] for c in customers]
-        for email, id in emails:
-            sreqs = SERVICEREQUEST.query.filter_by(customer_id=id).all()
-            requested_services = len(sreqs)
-            closed_services = len([s for s in sreqs if s.to_dict()['service_status'] == 'closed'])
-            print(email, requested_services, closed_services)
-            # total_spent = sum([s.to_dict()['price'] for s in SERVICE.query.all()])
-            subject = 'Monthly Summary | RuralClap'
-            content = '''
-                <html>
-                    <body>
-                        <div>
-                            <h2 style="color: #007bff;">Service Summary</h2>
-                            <p>Hello <strong>{}</strong>,</p>
-                            <p>Here is your service summary:</p>
-                            <ul>
-                                <li><strong>Service Requests:</strong> {}</li>
-                                <li><strong>Closed Requests:</strong> {}</li>
-                            </ul>
-                            <p>Best Regards,<br> RuralClap</p>
-                        </div>
-                    </body>
-                    </html>
-                    '''.format(email, requested_services, closed_services) # should be html
-            sendmail(email, subject, content)
-        
+@shared_task(ignore_result=False)
+def monthly_reminder_to_customers():
+    customers = CUSTOMER.query.all()
+    emails = [[c.to_dict()['email_id'], c.to_dict()['customer_id']] for c in customers]
+    for email, id in emails:
+        sreqs = SERVICEREQUEST.query.filter_by(customer_id=id).all()
+        requested_services = len(sreqs)
+        closed_services = len([s for s in sreqs if s.to_dict()['service_status'] == 'closed'])
+        print(email, requested_services, closed_services)
+        # total_spent = sum([s.to_dict()['price'] for s in SERVICE.query.all()])
+        subject = 'Monthly Summary | RuralClap'
+        content = '''
+            <html>
+                <body>
+                    <div>
+                        <h2 style="color: #007bff;">Service Summary</h2>
+                        <p>Hello <strong>{}</strong>,</p>
+                        <p>Here is your service summary:</p>
+                        <ul>
+                            <li><strong>Service Requests:</strong> {}</li>
+                            <li><strong>Closed Requests:</strong> {}</li>
+                        </ul>
+                        <p>Best Regards,<br> RuralClap</p>
+                    </div>
+                </body>
+                </html>
+                '''.format(email, requested_services, closed_services) # should be html
+        sendmail(email, subject, content)
+    
     return "Sent monthly summary to customers"

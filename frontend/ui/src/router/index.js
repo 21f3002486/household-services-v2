@@ -13,6 +13,8 @@ import SearchServices from '@/components/SearchServices.vue'
 import MyServiceRequests from '@/components/MyServiceRequests.vue'
 import ProfServiceRequest from '@/components/ProfServiceRequest.vue'
 import AdminHomePage from '@/components/AdminHomePage.vue'
+import CustomerHome from '@/components/CustomerHome.vue'
+import ProfessionalHome from '@/components/ProfessionalHome.vue'
 
 const routes = [
   {
@@ -65,6 +67,10 @@ const routes = [
     component: CustomerPage,
     children:[
       {
+        path: 'home',
+        component: CustomerHome
+      },
+      {
         path: 'searchservices',
         component: SearchServices
       },
@@ -79,6 +85,10 @@ const routes = [
     name: 'professional',
     component: ProfessionalPage,
     children:[
+      {
+        path: 'home',
+        component: ProfessionalHome
+      },
       {
         path: 'myservicerequests',
         component: ProfServiceRequest

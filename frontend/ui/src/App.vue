@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- {{ storedata }} -->
-    <nav class="bg-light mb-3">
+    <nav class="bg-body-secondary mb-3">
       <div v-if="!this.$store.state.is_logged_in" class="d-flex justify-content-around">
         <div>
           <button class="btn">RuralClap</button>

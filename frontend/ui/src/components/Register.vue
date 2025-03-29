@@ -1,6 +1,6 @@
 <template>
     <div class="container d-flex justify-content-center">
-        <div class="w-50">
+        <div class="w-50  border px-3 rounded" style="background-color: aliceblue;">
             <div class="d-flex justify-content-evenly">
                 <label for="" class="form-label">Register as: </label>
                 <div>

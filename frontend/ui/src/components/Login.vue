@@ -1,6 +1,6 @@
 <template>
     <div class="container d-flex justify-content-center">
-        <div class="w-50">
+        <div class="w-50 border px-3 rounded" style="background-color: aliceblue;">
             <br>
             <label class="form-label" for="emailId" name="emailId">Registered Email ID: </label>
             <input class="form-control" type="text" name="emailId" v-model="emailId">
@@ -70,9 +70,9 @@
                         if(this.role == "admin"){
                             this.$router.push('/admin/home')
                         }else if(this.role == "customer"){
-                            this.$router.push('/customer')
+                            this.$router.push('/customer/home')
                         }else{
-                            this.$router.push('/professional')
+                            this.$router.push('/professional/home')
                         }
                     }else{
                         this.error = d.message;
