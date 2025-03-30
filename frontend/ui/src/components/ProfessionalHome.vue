@@ -1,5 +1,5 @@
 <template>
-    <div v-if="me['is_approved']">
+    <div v-if="me['is_approved'] && !me['is_blocked']">
         <h4 class="mt-5">Welcome {{ me['email_id'] }}!</h4>
         <p class="text-success mt-3">Your average rating: {{ ratingcalc }}/5</p>
         <br>

@@ -73,7 +73,7 @@ def send_email_to_professional():
 @shared_task(ignore_result=False)
 def monthly_reminder_to_customers():
     customers = CUSTOMER.query.all()
-    emails = [[c.to_dict()['email_id'], c.to_dict()['customer_id']] for c in customers]
+    emails = [[c.to_dict()['email_id'], c.to_dict()['user_id']] for c in customers]
     for email, id in emails:
         sreqs = SERVICEREQUEST.query.filter_by(customer_id=id).all()
         requested_services = len(sreqs)

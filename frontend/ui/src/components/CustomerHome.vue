@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!me['is_blocked']">
         <h4 class="m-5">Welcome {{ me['email_id'] }}!</h4>
         <h5 class="text-center m-5">Checkout available services or dive into your service requests!</h5>
     </div>

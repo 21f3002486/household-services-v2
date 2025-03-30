@@ -5,7 +5,8 @@
         <button class="btn"><router-link to="/admin/services/addnewservice">Add New Service</router-link></button>
         <!-- {{ services }} -->
         <div class="d-flex justify-content-center">
-        <div class="row row-cols-2 row-cols-md-4">
+        <div>
+            <!-- class="row row-cols-2 row-cols-md-4"> -->
         <ShowServices 
             v-for="service in services"
             :key="service.service_id"

@@ -57,14 +57,16 @@ cache = Cache(app)
 @celery_app.on_after_configure.connect
 def send_email(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=19, minute=0),
+        # crontab(hour=19, minute=0),
+        crontab(hour=17, minute=5),
         send_email_to_professional.s()
     )
 
 @celery_app.on_after_configure.connect
 def send_monthly_summary(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=0, minute=0, day_of_month=1),
+        # crontab(hour=0, minute=0, day_of_month=1),
+        crontab(hour=17, minute=5),
         monthly_reminder_to_customers.s()
     )
 
@@ -343,7 +345,7 @@ class BookService(Resource):
 
         customer = db.session.query(CUSTOMER).join(USER).filter(USER.emailId.like(customer_email)).first()
 
-        pre_sreqs = SERVICEREQUEST.query.filter_by(customer_id=customer.id).all()
+        pre_sreqs = SERVICEREQUEST.query.filter_by(customer_id=customer.user_id).all()
 
         sreqs = [srq.to_dict() for srq in pre_sreqs]
 
