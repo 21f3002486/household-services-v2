@@ -1,7 +1,9 @@
 <template>
     <div v-if="me['is_approved'] && !me['is_blocked']">
-        <h4 class="mt-5">Welcome {{ me['email_id'] }}!</h4>
-        <p class="text-success mt-3">Your average rating: {{ ratingcalc }}/5</p>
+        <div class="d-flex justify-content-around">
+            <h4 class="m-5">Welcome {{ me['email_id'] }}!</h4>
+            <h5 class="m-5 text-success">Your average rating: {{ ratingcalc }}/5</h5>
+        </div>
         <br>
         <h5 class="text-center m-5">Checkout your service requests!</h5>
     </div>

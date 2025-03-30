@@ -1,7 +1,11 @@
 <template>
     <div v-if="!me['is_blocked']">
-        <h4 class="m-5">Welcome {{ me['email_id'] }}!</h4>
-        <h5 class="text-center m-5">Checkout available services or dive into your service requests!</h5>
+        <div class="d-flex justify-content-around">
+            <h4 class="m-5">Welcome {{ me['email_id'] }}!</h4>
+            <h5 class="m-5 text-danger">Your total service requests: {{ my_service_requests.length }}</h5>
+            <h5 class="m-5 text-danger">Your closed service requests: {{ closedreqs }}</h5>
+        </div>
+        <h5 class="text-center text-success m-5">Checkout available services or dive into your service requests!</h5>
     </div>
 </template>
 
@@ -15,8 +19,8 @@
             }
         },
         methods:{
-            getme(){
-                fetch('http://127.0.0.1:5000/getme',{
+            async getme(){
+                await fetch('http://127.0.0.1:5000/getme',{
                     method: "GET",
                     headers:{
                         'Authorization': 'Bearer ' + this.$store.state.token,
@@ -29,6 +33,17 @@
                     this.me = data.me;
                     this.my_service_requests = data.my_service_requests
                 })
+            }
+        },
+        computed:{
+            closedreqs(){
+                var cnt = 0;
+                for(let i=0; i<this.my_service_requests.length; i++){
+                    if(this.my_service_requests[i].service_status == 'closed'){
+                        cnt++;
+                    }
+                }
+                return cnt;
             }
         },
         mounted(){

@@ -58,7 +58,7 @@ cache = Cache(app)
 def send_email(sender, **kwargs):
     sender.add_periodic_task(
         # crontab(hour=19, minute=0),
-        crontab(hour=17, minute=5),
+        crontab(hour=18, minute=59),
         send_email_to_professional.s()
     )
 
@@ -66,7 +66,7 @@ def send_email(sender, **kwargs):
 def send_monthly_summary(sender, **kwargs):
     sender.add_periodic_task(
         # crontab(hour=0, minute=0, day_of_month=1),
-        crontab(hour=17, minute=5),
+        crontab(hour=18, minute=59),
         monthly_reminder_to_customers.s()
     )
 
@@ -420,7 +420,7 @@ class GetMe(Resource):
         
         elif user.role == 'customer':
             my_details = db.session.query(CUSTOMER).join(USER).filter(USER.emailId==email).first().to_dict()
-            service_requests = [sr.to_dict() for sr in SERVICEREQUEST.query.filter_by(customer_id=my_details['customer_id']).all()]
+            service_requests = [sr.to_dict() for sr in SERVICEREQUEST.query.filter_by(customer_id=my_details['user_id']).all()]
             return jsonify({
                 'me': my_details,
                 'my_service_requests': service_requests
