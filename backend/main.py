@@ -4,6 +4,8 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from flask_cors import CORS
 from datetime import datetime
 import os
+import random
+import time
 
 from models import USER, CUSTOMER, PROFESSIONAL, SERVICE, SERVICEREQUEST, db
 
@@ -474,6 +476,11 @@ class GetCSVByTaskId(Resource):
         else:
             return jsonify({"message": "Task is still pending..."}), 404
 
+class CacheDemo(Resource):
+    @cache.cached(timeout=10)
+    def get(self):
+        time.sleep(5)
+        return 'Hi, this is a cached value: '+str(random.randint(1,100))
 #############################################################################
 
 api.add_resource(Register, '/register')
@@ -496,6 +503,8 @@ api.add_resource(UpdateRequest, '/updatedate')
 
 api.add_resource(StartCSVRequest, '/startcsvrequest')
 api.add_resource(GetCSVByTaskId, '/getcsvbytaskid')
+
+api.add_resource(CacheDemo, '/cachedemo')
 
 #############################################################################
 with app.app_context():
